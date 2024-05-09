@@ -10,6 +10,10 @@ const newsRouter = require('./newsRouter')
 const servicesRouter = require('./servicesRouter')
 const partnerRouter = require('./partnersRouter')
 const galleryRouter = require('./galleryRouter')
+const documentsRouter = require('./documentsRouter')
+const departmentsRouter = require('./departmentsRouter')
+const halloffameRouter = require('./halloffameRouter')
+const massmediaRouter = require('./massmediaRouter')
 
 
 
@@ -21,6 +25,11 @@ router.use('/news', newsRouter)
 router.use('/services', servicesRouter)
 router.use('/partners', partnerRouter)
 router.use('/gallery', galleryRouter)
+router.use('/documents', documentsRouter)
+router.use('/departments', departmentsRouter)
+router.use('/administrators', administratorsRouter)
+router.use('/halloffame', halloffameRouter)
+router.use('/massmedia', massmediaRouter)
 
 
 module.exports = router

@@ -18,7 +18,9 @@ const Roles = sequelize.define('roles', {
 
 const Administrators = sequelize.define('administrators', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    assign_date: {type: DataTypes.DATE}
+    name: {type: DataTypes.STRING, allownull: false},
+    image: {type: DataTypes.STRING, allownull: false},
+    text: {type: DataTypes.STRING, allowNull: true},
 })
 
 const Moderators = sequelize.define('moderators', {
@@ -41,20 +43,20 @@ const News = sequelize.define('news', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     image: {type: DataTypes.STRING, allownull: false},
     date: {type: DataTypes.DATE, allowNull: false},
-    name: {type: DataTypes.INTEGER, allownull: false},
+    name: {type: DataTypes.STRING, allownull: false},
     text: {type: DataTypes.STRING, allowNull: true},
 })
 
 const Services = sequelize.define('services', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     image: {type: DataTypes.STRING, allownull: false},
-    name: {type: DataTypes.INTEGER, allownull: false},
+    name: {type: DataTypes.STRING, allownull: false},
     text: {type: DataTypes.STRING, allowNull: true},
 })
 
 const Partners = sequelize.define('partners', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.INTEGER, allownull: false},
+    name: {type: DataTypes.STRING, allownull: false},
     image: {type: DataTypes.STRING, allownull: false},
 })
 
@@ -63,11 +65,38 @@ const Gallery = sequelize.define('gallery', {
     image: {type: DataTypes.STRING, allownull: false},
 })
 
+const Documents = sequelize.define('documents', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, allownull: false},
+    text: {type: DataTypes.STRING, allowNull: true},
+})
+
+const Departments = sequelize.define('departments', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    image: {type: DataTypes.STRING, allownull: false},
+    name: {type: DataTypes.STRING, allownull: false},
+    text: {type: DataTypes.STRING, allowNull: true},
+})
+
+const Massmedia = sequelize.define('massmedia', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    image: {type: DataTypes.STRING, allownull: false},
+    name: {type: DataTypes.STRING, allownull: false},
+    text: {type: DataTypes.STRING, allowNull: true},
+    date: {type: DataTypes.DATE, allowNull: false},
+})
+
+const Halloffame = sequelize.define('halloffame', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    image: {type: DataTypes.STRING, allownull: false},
+    name: {type: DataTypes.STRING, allownull: false},
+    post: {type: DataTypes.STRING, allownull: false},
+    text: {type: DataTypes.STRING, allowNull: true},
+})
+
+
 Roles.hasMany(Users)
 Users.belongsTo(Roles)
-
-Users.hasOne(Administrators)
-Administrators.belongsTo(Users)
 
 Users.hasOne(Moderators)
 Moderators.belongsTo(Users)
@@ -90,6 +119,21 @@ Partners.belongsTo(Users)
 Users.hasMany(Gallery)
 Gallery.belongsTo(Users)
 
+Users.hasMany(Documents)
+Documents.belongsTo(Users)
+
+Users.hasMany(Departments)
+Departments.belongsTo(Users)
+
+Users.hasMany(Massmedia)
+Massmedia.belongsTo(Users)
+
+Users.hasMany(Halloffame)
+Halloffame.belongsTo(Users)
+
+Users.hasMany(Administrators)
+Administrators.belongsTo(Users)
+
 module.exports = {
     Users,
     Roles,
@@ -100,5 +144,9 @@ module.exports = {
     News,
     Services,
     Partners,
-    Gallery
+    Gallery,
+    Documents,
+    Massmedia,
+    Halloffame,
+    Departments
 }

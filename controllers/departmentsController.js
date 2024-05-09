@@ -1,36 +1,36 @@
-const {Administrators} = require('../models/models')
+const {Departments} = require('../models/models')
 const uuid = require('uuid')
 const path = require('path')
 const ApiError = require('../error/ApiError');
 
-class administratorsController {
+class departmentsController {
     async create(req, res) {
         const {name, text} = req.body
         const {image} = req.files
         let fileName = uuid.v4() + ".jpg"
         image.mv(path.resolve(__dirname, '../', 'static', fileName))
 
-        const admins = await Administrators.create({image: fileName, name, text})
-        return res.json(admins)
+        const deps = await Departments.create({image: fileName, name, text})
+        return res.json(deps)
     }
 
     async getAll(req, res) {
-        const admin = await Administrators.findAll()
-        return res.json(admin)
+        const dep = await Departments.findAll()
+        return res.json(dep)
     }
 
     async getOne(req, res) {
         const {id} = req.params
-        const admins = await Administrators.findOne(
+        const deps = await Departments.findOne(
             {
                 where: {id},
-                include: [{model: Administrators, as: 'info'}]
+                include: [{model: Departments, as: 'info'}]
             },
         )
-        return res.json(admins)
+        return res.json(deps)
     }
 
 }
 
 
-module.exports = new administratorsController()
+module.exports = new departmentsController()

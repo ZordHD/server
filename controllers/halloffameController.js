@@ -15,8 +15,16 @@ class halloffameController {
     }
 
     async getAll(req, res) {
-        const hofs = await Halloffame.findAll()
-        return res.json(hofs)
+        let {limit, page} = req.query
+        page = page || 1
+        limit = limit || 8
+        let offset = page * limit - limit
+
+        let hofs = await Halloffame.findAndCountAll({
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+        });
+        return res.json(hofs);
     }
 
     async getOne(req, res) {

@@ -160,9 +160,6 @@ const ServicesRB = sequelize.define('servicesrb', {
 Roles.hasMany(Users)
 Users.belongsTo(Roles)
 
-Users.hasOne(Administrators)
-Administrators.belongsTo(Users)
-
 Users.hasOne(Moderators)
 Moderators.belongsTo(Users)
 

@@ -13,6 +13,16 @@ class feedbackController {
         return res.json(feedbacks)
     }
 
+    async getOne(req, res) {
+        const {id} = req.params
+        const feedback = await Feedback.findOne(
+            {
+                where: {id},
+                include: [{model: Feedback, as: 'info'}]
+            },
+        )
+        return res.json(feedback)
+    }
 
 }
 

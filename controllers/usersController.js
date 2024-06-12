@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const{Users, Feedback} = require('../models/models')
+const{Users} = require('../models/models')
 
 
 const generateJwt = (id, email, permission) => {
@@ -17,7 +17,7 @@ const generateJwt = (id, email, permission) => {
 
 class usersController {
     async registration(req, res) {
-        const{name, surname, email, phone_num, password, permission} = req.body
+        const{email, name, surname, phone_num, password, permission} = req.body
         if(!email || !password){
             return next(ApiError.badRequest('Некорректный email или пароль'))
         }
@@ -26,14 +26,13 @@ class usersController {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
         const hashPassword = await bcrypt.hash(password, 5)
-        const users = await Users.create({name, surname, permission, email, phone_num, password: hashPassword})
-        const feedback = await Feedback.create({usersId: users.id})
-        const token = generateJwt(users.id, email, permission)
+        const users = await Users.create({email, name, surname, phone_num, permission, password: hashPassword})
+        const token = generateJwt(users.id, users.email, users.permission)
         return res.json({token})
     }   
 
     async login(req, res, next) {
-        const{email, password} = req.body
+        const{name, surname, email, phone_num, password, permission} = req.body
         const users = await Users.findOne({where: {email}})
         if (!users) {
             return next(ApiError.internal('Пользователь с таким email не найден'))
@@ -42,7 +41,7 @@ class usersController {
         if (!comparePassword) {
             return next(ApiError.internal('Неверный пароль'))
         }
-        const token = generateJwt(users.id, users.email)
+        const token = generateJwt(users.id, users.email, users.permission)
         return res.json({token})
     }
 

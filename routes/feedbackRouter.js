@@ -1,9 +1,11 @@
 const Router = require('express')
 const router = new Router()
 const feedbackController = require('../controllers/feedbackController')
-const checkPermission = require('../middleware/checkRoleMiddleware')
 
-router.post('/', checkPermission('USER'), feedbackController.create)
+
+router.post('/', feedbackController.create)
 router.get('/', feedbackController.getAll)
+router.get('/:id', feedbackController.getOne)
+
 
 module.exports = router

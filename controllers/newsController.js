@@ -15,8 +15,16 @@ class newsController {
     }
 
     async getAll(req, res) {
-        const newss = await News.findAll()
-        return res.json(newss)
+        let {limit, page} = req.query
+        page = page || 1
+        limit = limit || 3
+        let offset = page * limit - limit
+
+        let news = await News.findAndCountAll({
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+        });
+        return res.json(news);
     }
 
     async getOne(req, res) {

@@ -15,8 +15,16 @@ class partnersController {
     }
 
     async getAll(req, res) {
-        const prtnrs = await Partners.findAll()
-        return res.json(prtnrs)
+        let {limit, page} = req.query
+        page = page || 1
+        limit = limit || 5
+        let offset = page * limit - limit
+
+        let partners = await Partners.findAndCountAll({
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+        });
+        return res.json(partners);
     }
 
     async getOne(req, res) {
